@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="icons/icons8-calculator-64.png">
+</head>
+<body>
+    <div class="sideButtons">
+        <button id="rfg" onclick="cal.radFlagChange()">Deg</button>
+        <button id="swap" onclick="cal.changeFunctions()"><svg width="80px" height="80px" id="swapSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="swap"><g data-name="Layer 2"><path d="M4 9h13l-1.6 1.2a1 1 0 0 0-.2 1.4 1 1 0 0 0 .8.4 1 1 0 0 0 .6-.2l4-3a1 1 0 0 0 0-1.59l-3.86-3a1 1 0 0 0-1.23 1.58L17.08 7H4a1 1 0 0 0 0 2zm16 7H7l1.6-1.2a1 1 0 0 0-1.2-1.6l-4 3a1 1 0 0 0 0 1.59l3.86 3a1 1 0 0 0 .61.21 1 1 0 0 0 .79-.39 1 1 0 0 0-.17-1.4L6.92 18H20a1 1 0 0 0 0-2z" data-name="swap"></path></g></svg></button>
+    </div>
+    
+    <input type="text" id="mainInput" disabled>
+
+    <div class="mainDiv">
+        <div id="numbersDiv">
+            <button onclick="cal.addNum('7')">7</button>
+            <button onclick="cal.addNum('8')">8</button>
+            <button onclick="cal.addNum('9')">9</button>
+            <button onclick="cal.addNum('+')">+</button>
+            <br>
+
+            <button onclick="cal.addNum('4')">4</button>
+            <button onclick="cal.addNum('5')">5</button>
+            <button onclick="cal.addNum('6')">6</button>
+            <button onclick="cal.addNum('-')">-</button>
+            <br>
+
+            <button onclick="cal.addNum('1')">1</button>
+            <button onclick="cal.addNum('2')">2</button>
+            <button onclick="cal.addNum('3')">3</button>
+            <button onclick="cal.addMathMul()">×</button>
+        </div>
+
+        <button onclick="cal.clearf()">C</button>
+        <button onclick="cal.addNum('0')">0</button>
+        <button onclick="cal.evalfn()">=</button>
+        <button onclick="cal.addMathDiv()">÷</button>
+        <br>
+
+        <button onclick="cal.addDecimalPoint()" id="dot">.</button>
+        <button onclick="cal.addOpeningParentheses()">(</button>
+        <button onclick="cal.addClosingParentheses()" id="par">)</button>
+        <button onclick="cal.bs()">⌫</button>
+        <br>
+    </div>
+
+    <div class="functionsDiv">
+        <div class="section1" id="s1">
+            <button onclick="cal.logf()">Log</button>
+            <button onclick="cal.lnf()">ln</button>
+            <button onclick="cal.addE()">e</button>
+            <button onclick="cal.addPi()">π</button>
+            <br>
+
+            <button onclick="cal.power()" id="powbtn">x^y</button>
+            <button onclick="cal.squareRoot()">√</button>
+            <button onclick="cal.cubeRoot()">∛</button>
+            <button onclick="cal.absf()">|x|</button>
+            <br>
+
+            <button onclick="cal.sinf()">sin</button>
+            <button onclick="cal.cosf()">cos</button>
+            <button onclick="cal.tanf()">tan</button>
+            <button onclick="cal.cotf()">cot</button>
+            <br>
+
+            <button onclick="cal.Rad()">Rad</button>
+            <button onclick="cal.Deg()">Deg</button>
+            <button onclick="cal.addFactorial()">!</button>
+            <button onclick="cal.addPercent()">%</button>
+        </div>
+        <div class="section2" id="s2">
+            <button onclick="cal.asinf()">asin</button>
+            <button onclick="cal.acosf()">acos</button>
+            <button onclick="cal.atanf()">atan</button>
+            <button onclick="cal.acotf()">acot</button>
+            <br>
+
+            <button onclick="cal.sinhf()">sinh</button>
+            <button onclick="cal.coshf()">cosh</button>
+            <button onclick="cal.tanhf()">tanh</button>
+            <button onclick="cal.cothf()">coth</button>
+            <br>
+
+            <button onclick="cal.asinhf()">asinh</button>
+            <button onclick="cal.acoshf()">acosh</button>
+            <button onclick="cal.atanhf()">atanh</button>
+            <button onclick="cal.acothf()">acoth</button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

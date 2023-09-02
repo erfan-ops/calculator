@@ -1,0 +1,166 @@
+:root{
+    --darkBrown: #573300;
+    --lightBrown: #c99d61;
+}
+
+::selection {
+    background-color: var(--darkBrown);
+    color: var(--lightBrown);
+}
+
+
+@font-face {
+    font-family: dancing;
+    src: url("fonts/Dancing_Script/DancingScript-VariableFont_wght.ttf");
+}
+
+
+body {
+    text-align: center;
+    width: 100%;
+    margin: 0;
+    background-size: cover;
+    background-color: var(--lightBrown);
+}
+
+input{
+    height: 26mm;
+    width: calc(100% - 275px);
+    border-color: var(--darkBrown);
+    font-size: 50px;
+    text-align: left;
+    margin-top: 1.6mm;
+    position: absolute;
+    left: 130px;
+}
+
+button{
+    border-color: var(--darkBrown);
+    font-size: 40px;
+    margin: 1.6mm;
+    height: 26mm;
+    width: 20%;
+    transition: 0.3s;
+}
+
+button:hover{
+    color: var(--lightBrown);
+    background-color: var(--darkBrown);
+    border-color: var(--lightBrown);
+    transition: 0.3s;
+    box-shadow: 0 0 6px var(--darkBrown);
+    text-shadow: 0 0 5px;
+}
+
+button, input{
+    text-shadow: 0 0 3px;
+    box-shadow: 4px 4px 5px;
+    color: var(--darkBrown);
+    border-radius: 25px;
+    border-width: 5px;
+    background-color: var(--lightBrown);
+    font-family: dancing, serif, sans-serif;
+}
+
+#swapSvg {
+    fill: var(--darkBrown);
+    position: relative;
+    top: 2px;
+    transition: 0.3s;
+}
+
+#swap:hover #swapSvg {
+    fill: var(--lightBrown);
+    transition: 0.3s;
+}
+
+@media only screen and (orientation : landscape) {
+    button {
+        max-width: 140px;
+        width: calc(12.5vw - 25px);
+    }
+
+    input {
+        position: absolute;
+        top: 10px;
+    }
+
+    #rfg, #swap {
+        position: absolute;
+        top: 10px;
+        height: 29mm;
+        width: 100px;
+    }
+    #rfg {
+        left: 10px;
+    }
+    #swap {
+        right: 10px;
+    }
+    #swapSvg {
+        position: relative;
+        top: 3px;
+        right: 3px;
+    }
+
+    @media only screen and (min-width : 30cm) {
+        .mainDiv {
+            position: absolute;
+            top: 4cm;
+            left: 52%;
+        }
+        
+        .functionsDiv {
+            position: absolute;
+            top: 4cm;
+            right: 52%;
+        }
+    }
+
+    @media only screen and (max-width : 30cm) {
+        .mainDiv {
+            position: absolute;
+            top: 4cm;
+            left: calc(50vw + 1mm);
+        }
+        
+        .functionsDiv {
+            position: absolute;
+            top: 4cm;
+            right: calc(50vw + 1mm);
+        }
+    }
+}
+
+@media only screen and (orientation : portrait) {
+    button {
+        width: calc(25vw - 25px);
+    }
+
+    .mainDiv {
+        position: relative;
+        top: 150px;
+        left: 0;
+    }
+    
+    .functionsDiv {
+        position: relative;
+        top: 150px;
+        left: 0;
+    }
+
+    input {
+        position: absolute;
+        left: 15px;
+        width: calc(100vw - 60px);
+    }
+
+    .sideButtons button {
+        width: calc(50vw - 32px);
+    }
+
+    #swap {
+        position: relative;
+        top: 23px;
+    }
+}
