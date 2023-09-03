@@ -73,7 +73,7 @@ class Calculator {
 
     evalfn () {
         let exp = this.result;
-        if (this.isDigit(exp) && this.lo !== "") {
+        if (this.isDigit(exp) && (exp !== String(this.roundFloat(Math.E)) && exp !== String(this.roundFloat(Math.PI))) && this.lo !== "") {
             exp += this.lo;
         }
     
