@@ -581,8 +581,10 @@ class Calculator {
 }
 
 const cal = new Calculator();
+keyPressSound = document.getElementById("kps");
 
 window.addEventListener("keydown", function (event) {
+    keyPressSound.play();
     if (event.defaultPrevented) {
         return;
     }
