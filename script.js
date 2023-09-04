@@ -91,12 +91,14 @@ class Calculator {
 
     calc (exp) {
         const x = this.findLastOperationIndex(exp);
-        if (x !== -1) {
-            let t = exp.slice(x+1, exp.length);
+        var op = exp[x];
+        if (exp[x+1] === "*") {op = "**";}
+            if (x !== -1) {
+            let t = exp.slice(x+op.length, exp.length);
             const p1len = t.length - t.replace(/[(]/g, "").length;
             const p2len = t.length - t.replace(/[)]/g, "").length;
-            t = t.slice(0, t.length - (p2len-p1len))
-            this.lo = exp[x] + eval(t);
+            t = t.slice(0, t.length - (p2len-p1len));
+            this.lo = op + eval(t);
         }
         let result = String(this.roundFloat(eval(exp)));
         if (result === "NaN") {
@@ -136,9 +138,11 @@ class Calculator {
         const y = exp.lastIndexOf("+");
         const i = exp.lastIndexOf("-");
         const j = exp.lastIndexOf("/");
-        if(x < y){x = y;}
-        if(x < i){x = i;}
-        if(x < j){x = j;}
+        const a = exp.lastIndexOf("**");
+        if (x < y) {x = y;}
+        if (x < i) {x = i;}
+        if (x < j) {x = j;}
+        if (x-1 === a) {x = a;}
         return x;
     }
 
@@ -501,7 +505,7 @@ class Calculator {
         let t = this.result.match(/\d+\)+$/g);
         if (t[0] === undefined) {return;}
         t = t[0];
-        const opReached = 0;
+        var opReached = 0;
         const p2len = t.length - t.replace(/[)]/g, "").length;
         for (var i = this.result.indexOf(t); opReached < p2len; i--) {
             if (opReached === p2len) {break;}
@@ -512,9 +516,9 @@ class Calculator {
         var j = this.result.indexOf(elm2)-1;
         while (j > 0) {
             if (this.result[j] && /\w|\./.test(this.result[j])) {j--;continue;}
-            j++;
             break;
         }
+        j++;
         t = this.result.slice(j, this.result.indexOf(t)+t.length);
         return t;
     }
@@ -626,6 +630,9 @@ window.addEventListener("keydown", function (event) {
             break;
         case "!":
             cal.addFactorial();
+            break;
+        case "%":
+            cal.addPercent();
             break;
         default:
             return;
