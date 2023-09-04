@@ -75,12 +75,12 @@ class Calculator {
         if (this.isDigit(exp) && (exp !== String(this.roundFloat(Math.E)) && exp !== String(this.roundFloat(Math.PI))) && this.lo !== "") {
             exp += this.lo;
         }
-    
-        const p1len = exp.length - exp.replace(/[(]/g, "").length;
-        const p2len = exp.length - exp.replace(/[)]/g, "").length;
 
         this.facts.forEach(elm => exp = exp.replace(elm+"!", `this.factorial(${elm})`))
         this.percents.forEach(elm => exp = exp.replace(elm+"%", `(${elm}/100)`))
+
+        const p1len = exp.length - exp.replace(/[(]/g, "").length;
+        const p2len = exp.length - exp.replace(/[)]/g, "").length;
     
         if(p1len > p2len){
             exp += ")".repeat(p1len-p2len);
@@ -90,7 +90,7 @@ class Calculator {
     }
 
     calc (exp) {
-        const x = this.findLastOperationIndex();
+        const x = this.findLastOperationIndex(exp);
         if (x !== -1) {
             let t = exp.slice(x+1, exp.length);
             const p1len = t.length - t.replace(/[(]/g, "").length;
@@ -117,7 +117,7 @@ class Calculator {
         result = result.map((num) => num.replace(",", sep));
         let answer = str;
         if (decimals[0] !== undefined) {
-            const j = 0;
+            var j = 0;
             for (let i = 0; i < result.length; i++) {
                 if (result[i].includes(".")) {result[i] = result[i].slice(0, result[i].indexOf(".")) + decimals[j];j++;}
                 answer = answer.replace(numbers[i], result[i]);
@@ -131,11 +131,11 @@ class Calculator {
         return answer;
     }
 
-    findLastOperationIndex () {
-        let x = this.result.lastIndexOf("*");
-        const y = this.result.lastIndexOf("+");
-        const i = this.result.lastIndexOf("-");
-        const j = this.result.lastIndexOf("/");
+    findLastOperationIndex (exp = this.result) {
+        let x = exp.lastIndexOf("*");
+        const y = exp.lastIndexOf("+");
+        const i = exp.lastIndexOf("-");
+        const j = exp.lastIndexOf("/");
         if(x < y){x = y;}
         if(x < i){x = i;}
         if(x < j){x = j;}
