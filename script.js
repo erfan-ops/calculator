@@ -1,7 +1,6 @@
 class Calculator {
     constructor () {
         this.mainInput = document.getElementById("mainInput");
-        this.ops = ["+", "-"];
         this.result = "";
         this.radFlag = false;
         this.radFlagButton = document.getElementById("RFB");
@@ -77,8 +76,8 @@ class Calculator {
             exp += this.lo;
         }
     
-        let p1len = exp.length - exp.replace(/[(]/g, "").length;
-        let p2len = exp.length - exp.replace(/[)]/g, "").length;
+        const p1len = exp.length - exp.replace(/[(]/g, "").length;
+        const p2len = exp.length - exp.replace(/[)]/g, "").length;
 
         this.facts.forEach(elm => exp = exp.replace(elm+"!", `this.factorial(${elm})`))
         this.percents.forEach(elm => exp = exp.replace(elm+"%", `(${elm}/100)`))
@@ -91,11 +90,11 @@ class Calculator {
     }
 
     calc (exp) {
-        let x = this.findLastOperationIndex();
+        const x = this.findLastOperationIndex();
         if (x !== -1) {
             let t = exp.slice(x+1, exp.length);
-            let p1len = t.length - t.replace(/[(]/g, "").length;
-            let p2len = t.length - t.replace(/[)]/g, "").length;
+            const p1len = t.length - t.replace(/[(]/g, "").length;
+            const p2len = t.length - t.replace(/[)]/g, "").length;
             t = t.slice(0, t.length - (p2len-p1len))
             this.lo = exp[x] + eval(t);
         }
@@ -110,15 +109,15 @@ class Calculator {
 
     addComma (str, sep=this.com) {
         str = str.replaceAll(sep, "");
-        let numbers = str.match(/-*\d+(\.\d+)?/g);
+        const numbers = str.match(/-*\d+(\.\d+)?/g);
         if (numbers === null) {return str;}
-        let decimals = numbers.map((num) => {if (/\d+\.\d+/.test(num)) {return num.slice(num.indexOf("."), num.length);}});
+        const decimals = numbers.map((num) => {if (/\d+\.\d+/.test(num)) {return num.slice(num.indexOf("."), num.length);}});
         let result = numbers.map((num) => Number(num).toLocaleString(this.lang));
         if (result.includes("NaN")) {result.splice(result.indexOf("NaN"), 1);}
         result = result.map((num) => num.replace(",", sep));
         let answer = str;
         if (decimals[0] !== undefined) {
-            var j = 0;
+            const j = 0;
             for (let i = 0; i < result.length; i++) {
                 if (result[i].includes(".")) {result[i] = result[i].slice(0, result[i].indexOf(".")) + decimals[j];j++;}
                 answer = answer.replace(numbers[i], result[i]);
@@ -134,9 +133,9 @@ class Calculator {
 
     findLastOperationIndex () {
         let x = this.result.lastIndexOf("*");
-        let y = this.result.lastIndexOf("+");
-        let i = this.result.lastIndexOf("-");
-        let j = this.result.lastIndexOf("/");
+        const y = this.result.lastIndexOf("+");
+        const i = this.result.lastIndexOf("-");
+        const j = this.result.lastIndexOf("/");
         if(x < y){x = y;}
         if(x < i){x = i;}
         if(x < j){x = j;}
@@ -149,8 +148,8 @@ class Calculator {
 
     addDecimalPoint () {
         if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
-        let x = this.findLastOperationIndex();
-        let temp = this.mainInput.value.slice(x + 1, this.mainInput.value.length);
+        const x = this.findLastOperationIndex();
+        const temp = this.mainInput.value.slice(x + 1, this.mainInput.value.length);
         if(")eπ".includes(temp[temp.length - 1])){
             this.mainInput.value = this.mainInput.value + "×";
             this.result += "*"
@@ -170,13 +169,12 @@ class Calculator {
         if (!this.mainInput.value) {return;}
         if (this.mainInput.value[this.mainInput.value.length - 1] === "e") {
             this.mainInput.value = this.mainInput.value.slice(0, -1);
-            let EIndex = this.result.lastIndexOf(this.roundFloat(Math.E));
+            const EIndex = this.result.lastIndexOf(this.roundFloat(Math.E));
             this.result = this.result.slice(0, (EIndex));
         }
         else if (this.mainInput.value[this.mainInput.value.length - 1] === "π") {
             this.mainInput.value = this.mainInput.value.slice(0, -1);
-            let PIIndex = this.result.lastIndexOf(this.roundFloat(Math.PI));
-            var x = 0;
+            const PIIndex = this.result.lastIndexOf(this.roundFloat(Math.PI));
             this.result = this.result.slice(0, (PIIndex));
         }
         else if (this.result.slice(-2, this.result.length) === "**" || this.mainInput.value[this.mainInput.value.length-1] === "-") {
@@ -198,10 +196,10 @@ class Calculator {
 
     addClosingParentheses () {
         if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";return;}
-        let temp = String(this.mainInput.value);
-        let p1len = temp.length - temp.replace(/[(]/g, "").length;
-        let p2len = temp.length - temp.replace(/[)]/g, "").length;
-        let tempLastIndex = temp[temp.length - 1];
+        const temp = String(this.mainInput.value);
+        const p1len = temp.length - temp.replace(/[(]/g, "").length;
+        const p2len = temp.length - temp.replace(/[)]/g, "").length;
+        const tempLastIndex = temp[temp.length - 1];
     
         if(p1len > p2len && this.isDigit(tempLastIndex, "eπ)!") && !".^+-×÷".includes(tempLastIndex)){
             this.mainInput.value = temp + ")";
@@ -503,14 +501,14 @@ class Calculator {
         let t = this.result.match(/\d+\)+$/g);
         if (t[0] === undefined) {return;}
         t = t[0];
-        var opReached = 0;
-        var p2len = t.length - t.replace(/[)]/g, "").length;
+        const opReached = 0;
+        const p2len = t.length - t.replace(/[)]/g, "").length;
         for (var i = this.result.indexOf(t); opReached < p2len; i--) {
             if (opReached === p2len) {break;}
             if (this.result[i] === "(") {opReached++;continue;}
         }
         i++;
-        var elm2 = this.result.slice(i, this.result.indexOf(t)+t.length);
+        const elm2 = this.result.slice(i, this.result.indexOf(t)+t.length);
         var j = this.result.indexOf(elm2)-1;
         while (j > 0) {
             if (this.result[j] && /\w|\./.test(this.result[j])) {j--;continue;}
@@ -543,7 +541,7 @@ class Calculator {
             this.result += "!";
         }
         else {
-            let t = this.getExpBefore();
+            const t = this.getExpBefore();
             if (/\d+\.\d+/.test(String(this.roundFloat(eval(t))))) {
                 alert("can't get the factorial of a floating point number");
                 return;
@@ -562,7 +560,7 @@ class Calculator {
             this.percents.push(this.mainInput.value.match(/\d+\.?(\.\d+)?$/)[0]);
         }
         else {
-            let t = this.getExpBefore();
+            const t = this.getExpBefore();
             this.percents.push(t);
         }
         this.mainInput.value = this.mainInput.value + "%";
@@ -581,9 +579,11 @@ class Calculator {
 }
 
 const cal = new Calculator();
-keyPressSound = document.getElementById("kps");
+const keyPressSound = document.getElementById("kps");
 
 window.addEventListener("keydown", function (event) {
+    keyPressSound.pause();
+    keyPressSound.currentTime = 0;
     keyPressSound.play();
     if (event.defaultPrevented) {
         return;
