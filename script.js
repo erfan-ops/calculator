@@ -3,7 +3,7 @@ class Calculator {
         this.mainInput = document.getElementById("mainInput");
         this.result = "";
         this.radFlag = false;
-        this.radFlagButton = document.getElementById("RFB");
+        this.radFlagButton = document.getElementById("rfg");
         this.logt = Math.log10;
         this.lo = "";
         this.lang = document.getElementsByTagName("html")[0].getAttribute("lang");
@@ -13,6 +13,10 @@ class Calculator {
         this.sec1 = document.getElementById("s1");
         this.sec2 = document.getElementById("s2");
         this.sec2.hidden = true;
+        this.bar = document.getElementsByClassName("sideBar")[0];
+        this.barBtn = document.getElementsByClassName("bars")[0];
+        this.barClose = document.getElementsByClassName("bars")[1];
+        this.bar.style.left = "-300px";
     }
     
     addNum (num2) {
@@ -71,6 +75,10 @@ class Calculator {
     }
 
     evalfn () {
+        if (this.result === "") {
+            alert("Error");
+            return;}
+        
         let exp = this.result;
         if (this.isDigit(exp) && (exp !== String(this.roundFloat(Math.E)) && exp !== String(this.roundFloat(Math.PI))) && this.lo !== "") {
             exp += this.lo;
@@ -82,7 +90,7 @@ class Calculator {
         const p1len = exp.length - exp.replace(/[(]/g, "").length;
         const p2len = exp.length - exp.replace(/[)]/g, "").length;
     
-        if(p1len > p2len){
+        if(p1len > p2len) {
             exp += ")".repeat(p1len-p2len);
         }
 
@@ -580,10 +588,33 @@ class Calculator {
             this.sec2.hidden = false;
         }
     }
+
+    showBar () {
+        this.bar.style.left = "0";
+        this.barBtn.hidden = true;
+        this.barClose.hidden = false;
+    }
+
+    hideBar () {
+        this.bar.style.left = "-300px";
+        this.barBtn.hidden = false;
+        this.barClose.hidden = true;
+    }
 }
 
 const cal = new Calculator();
-const keyPressSound = document.getElementById("kps");
+var keyPressSound = document.getElementById("kps");
+var options = document.getElementById("sel");
+
+
+function changeKeyboardSound () {
+    var selectedValue = options.selectedIndex;
+    if (selectedValue === -1) {
+        selectedValue = 4;
+    }
+    keyPressSound.src = `sounds/keypress${selectedValue+1}.wav`;
+    keyPressSound.load();
+}
 
 window.addEventListener("keydown", function (event) {
     keyPressSound.pause();
