@@ -621,6 +621,7 @@ class Calculator {
 const cal = new Calculator();
 var keyPressSound = document.getElementById("kps");
 var options = document.getElementById("sel");
+var fontOptions = document.getElementById("sel2");
 
 
 function changeKeyboardSound () {
@@ -630,6 +631,19 @@ function changeKeyboardSound () {
     }
     keyPressSound.src = `sounds/keypress${selectedValue+1}.wav`;
     keyPressSound.load();
+}
+
+function changeFont () {
+    var selectedValue = fontOptions.options[fontOptions.selectedIndex].value;
+    if (fontOptions.selectedIndex === -1  || selectedValue === "sans-serif") {
+        document.querySelectorAll('*').forEach(elm => {elm.style.fontFamily = 'sans-serif, serif';});
+    } else if (selectedValue === "serif") {
+        document.querySelectorAll('*').forEach(elm => {elm.style.fontFamily = 'serif, sans-serif';});
+    } else {
+        document.querySelectorAll('*').forEach(elm => {elm.style.fontFamily = `${selectedValue}, serif, sans-serif`;});
+    }
+    cal.barClose.innerHTML = "<i class=\"fa-solid fa-times\"></i>";
+    cal.barBtn.innerHTML = "<i class=\"fa-solid fa-bars\"></i>";
 }
 
 
@@ -706,6 +720,12 @@ window.addEventListener("keydown", function (event) {
             break;
         case "escape":
             cal.barEsc();
+            break;
+        case "arrowleft":
+            cal.changeFunctions();
+            break;
+        case "arrowright":
+            cal.changeFunctions();
             break;
         default:
             return;

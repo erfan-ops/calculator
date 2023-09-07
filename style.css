@@ -8,15 +8,28 @@
     color: var(--lightBrown);
 }
 
-* {
-    font-family: dancing, serif, sans-serif;
-}
-
 @font-face {
     font-family: dancing;
     src: url("fonts/Dancing_Script/DancingScript-VariableFont_wght.ttf");
 }
+@font-face {
+    font-family: comforter;
+    src: url("fonts/Comforter/Comforter-Regular.ttf");
+}
+@font-face {
+    font-family: kablammo;
+    src: url("fonts/kablammo/Kablammo-Regular-VariableFont_MORF.ttf");
+}
+@font-face {
+    font-family: parisienne;
+    src: url("fonts/Parisienne/Parisienne-Regular.ttf");
+}
 
+
+* {
+    font-family: sans-serif, serif;
+    user-select: none;
+}
 
 body {
     text-align: center;
@@ -35,6 +48,7 @@ body {
     margin-top: 1.6mm;
     position: absolute;
     left: 240px;
+    user-select: all;
 }
 
 button{
@@ -55,6 +69,12 @@ button:hover{
     text-shadow: 0 0 5px;
 }
 
+button:active {
+    border-color: var(--darkBrown);
+    background-color: #472300;
+
+}
+
 button, #mainInput{
     text-shadow: 0 0 3px;
     box-shadow: 4px 4px 5px;
@@ -62,10 +82,6 @@ button, #mainInput{
     border-radius: 25px;
     border-width: 5px;
     background-color: var(--lightBrown);
-}
-
-button, .sideBar {
-    user-select: none;
 }
 
 #swapSvg {
@@ -135,7 +151,6 @@ button, .sideBar {
     text-shadow: 0 0 5px;
     background-color: #472300;
     padding-left: 20px;
-    font-size: 32px;
 }
 
 .sideBar select option:checked {
