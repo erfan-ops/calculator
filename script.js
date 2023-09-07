@@ -18,6 +18,7 @@ class Calculator {
         this.barClose = document.getElementById("barclose");
         this.barClose.style.display = "none";
         this.bar.style.left = "-300px";
+        this.barIsVisible = false;
     }
     
     addNum (num2) {
@@ -73,14 +74,16 @@ class Calculator {
     clearf () {
         this.mainInput.value = "";
         this.result = "";
+        this.facts = [];
+        this.percents = [];
     }
 
-    evalfn () {
-        if (this.result === "") {
+    evalfn (str = this.result) {
+        if (str === "") {
             alert("Error");
             return;}
         
-        let exp = this.result;
+        let exp = str;
         if (this.isDigit(exp) && (exp !== String(this.roundFloat(Math.E)) && exp !== String(this.roundFloat(Math.PI))) && this.lo !== "") {
             exp += this.lo;
         }
@@ -596,12 +599,22 @@ class Calculator {
             this.barBtn.style.display = "none";
         }
         this.barClose.style.display = "block";
+        this.barIsVisible = true;
     }
 
     hideBar () {
         this.bar.style.left = "-300px";
         this.barBtn.style.display = "block";
         this.barClose.style.display = "none";
+        this.barIsVisible = false;
+    }
+
+    barEsc () {
+        if (this.barIsVisible) {
+            this.hideBar();
+        } else {
+            this.showBar();
+        }
     }
 }
 
@@ -619,6 +632,7 @@ function changeKeyboardSound () {
     keyPressSound.load();
 }
 
+
 window.addEventListener("keydown", function (event) {
     keyPressSound.pause();
     keyPressSound.currentTime = 0;
@@ -628,6 +642,28 @@ window.addEventListener("keydown", function (event) {
     }
     let nums = "0123456789+-".split("");
     nums.forEach(num => {if (event.key === num) {cal.addNum(num);}});
+
+    if (event.ctrlKey) {
+        switch (event.key.toLocaleLowerCase()) {
+            case "c":
+                var copyText = cal.mainInput.value;
+                this.navigator.clipboard.writeText(copyText);
+                return;
+            case "x":
+                var copyText = cal.mainInput.value;
+                this.navigator.clipboard.writeText(copyText);
+                cal.clearf();
+                break;
+            case "v":
+                try {
+                    let t = this.navigator.clipboard.readText();
+                    cal.evalfn(t);
+                } catch {
+                    this.alert("can't calculate");
+                }
+                break;
+        }
+    }
     switch (event.key.toLocaleLowerCase()) {
         case "enter":
             cal.evalfn();
@@ -667,6 +703,9 @@ window.addEventListener("keydown", function (event) {
             break;
         case "%":
             cal.addPercent();
+            break;
+        case "escape":
+            cal.barEsc();
             break;
         default:
             return;
