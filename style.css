@@ -100,6 +100,7 @@ button, .sideBar {
 
 .sideBar {
     position: fixed;
+    top: 0;
     left: -300px;
     width: 300px;
     height: 100vh;
@@ -207,33 +208,51 @@ button, .sideBar {
     }
 
     .mainDiv {
-        position: relative;
-        top: 150px;
+        position: absolute;
+        top: 270px;
         left: 0;
+        margin: 10px;
     }
     
     .functionsDiv {
-        position: relative;
-        top: 150px;
+        position: absolute;
+        top: 830px;
         left: 0;
+        margin: 10px;
     }
 
     #mainInput {
         position: absolute;
         left: 15px;
         width: calc(100vw - 60px);
+        top: 140px;
     }
 
     .sideButtons button {
+        position: absolute;
         width: calc(33vw - 25px);
+        margin: 10px;
     }
 
     #swap {
         position: relative;
-        top: 23px;
+    }
+
+    #rfg {
+        right: 0;
+    }
+
+    #bar {
+        left: 0;
     }
 
     #github {
         display: none;
+    }
+
+    #barclose {
+        position: absolute;
+        left: 310px;
+        top: 0;
     }
 }

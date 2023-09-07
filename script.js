@@ -14,8 +14,9 @@ class Calculator {
         this.sec2 = document.getElementById("s2");
         this.sec2.hidden = true;
         this.bar = document.getElementsByClassName("sideBar")[0];
-        this.barBtn = document.getElementsByClassName("bars")[0];
-        this.barClose = document.getElementsByClassName("bars")[1];
+        this.barBtn = document.getElementById("bar");
+        this.barClose = document.getElementById("barclose");
+        this.barClose.style.display = "none";
         this.bar.style.left = "-300px";
     }
     
@@ -591,14 +592,16 @@ class Calculator {
 
     showBar () {
         this.bar.style.left = "0";
-        this.barBtn.hidden = true;
-        this.barClose.hidden = false;
+        if(window.innerHeight < window.innerWidth){
+            this.barBtn.style.display = "none";
+        }
+        this.barClose.style.display = "block";
     }
 
     hideBar () {
         this.bar.style.left = "-300px";
-        this.barBtn.hidden = false;
-        this.barClose.hidden = true;
+        this.barBtn.style.display = "block";
+        this.barClose.style.display = "none";
     }
 }
 
