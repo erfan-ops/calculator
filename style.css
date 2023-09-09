@@ -108,10 +108,15 @@ button, #mainInput{
     fill: var(--darkBrown);
 }
 
+.sideButtons button {
+    text-shadow: 0 0 3px var(--darkBrown);
+}
+
 .sideButtons button:hover {
     color: var(--lightBrown);
     background-color: var(--darkBrown);
     border-color: var(--darkBrown);
+    text-shadow: 0 0 5px var(--lightBrown);
 }
 
 .sideBar {

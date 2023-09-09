@@ -19,6 +19,7 @@ class Calculator {
         this.barClose.style.display = "none";
         this.bar.style.left = "-300px";
         this.barIsVisible = false;
+        this.swapBtn = document.getElementById("swap");
     }
     
     addNum (num2) {
@@ -644,6 +645,7 @@ function changeFont () {
     }
     cal.barClose.innerHTML = "<i class=\"fa-solid fa-times\"></i>";
     cal.barBtn.innerHTML = "<i class=\"fa-solid fa-bars\"></i>";
+    cal.swapBtn.innerHTML = "<i class=\"fa-solid fa-right-left\"></i>";
 }
 
 
