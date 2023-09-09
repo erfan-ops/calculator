@@ -598,16 +598,20 @@ class Calculator {
         this.bar.style.left = "0";
         if(window.innerHeight < window.innerWidth){
             this.barBtn.style.display = "none";
-        }
-        this.barClose.style.display = "block";
+        }        
         this.barIsVisible = true;
+        this.barClose.style.animation = "fadeIn 0.5s ease"
+        this.barClose.style.opacity = "1";
+        this.barClose.style.display = "block";
     }
 
     hideBar () {
         this.bar.style.left = "-300px";
         this.barBtn.style.display = "block";
-        this.barClose.style.display = "none";
         this.barIsVisible = false;
+        this.barClose.style.animation = "fadeOut 0.5s ease"
+        this.barClose.style.opacity = "0";
+        this.barClose.style.display = "none";
     }
 
     barEsc () {

@@ -25,6 +25,16 @@
     src: url("fonts/Parisienne/Parisienne-Regular.ttf");
 }
 
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    100% { opacity: 1; }
+    0% { opacity: 0; }
+}
+
 
 * {
     font-family: sans-serif, serif;
@@ -130,6 +140,7 @@ button, #mainInput{
     padding: 0;
     margin: 0;
     text-align: left;
+    transition: 0.5s ease;
 }
 
 .sideBar header {
@@ -160,6 +171,10 @@ button, #mainInput{
 
 .sideBar select option:checked {
     background-color: #472300;
+}
+#barclose {
+    opacity: 0;
+    animation: fadeIn 0.5s ease;
 }
 
 
