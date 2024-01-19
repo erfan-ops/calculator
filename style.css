@@ -148,6 +148,7 @@ button, #mainInput{
     font-size: 30px;
     line-height: 70px;
     background-color: #472300;
+    text-shadow: 0 0 5px var(--lightBrown);
 }
 
 .sideBar select {

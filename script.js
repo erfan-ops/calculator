@@ -75,6 +75,7 @@ class Calculator {
     clearf () {
         this.mainInput.value = "";
         this.result = "";
+        this.lo = "";
         this.facts = [];
         this.percents = [];
     }
@@ -557,6 +558,11 @@ class Calculator {
             this.mainInput.value = this.mainInput.value + "!";
             this.result += "!";
         }
+        // else if (/\d+\!$/.test(this.mainInput.value)) {
+        //     this.facts.push(this.mainInput.value.match(/\d+\!$/));
+        //     this.mainInput.value = this.mainInput.value + "!";
+        //     this.result += "!";
+        // }
         else {
             const t = this.getExpBefore();
             if (/\d+\.\d+/.test(String(this.roundFloat(eval(t))))) {
@@ -631,11 +637,10 @@ var fontOptions = document.getElementById("sel2");
 
 function changeKeyboardSound () {
     var selectedValue = options.selectedIndex;
-    if (selectedValue === -1) {
-        selectedValue = 4;
+    if (selectedValue !== -1) {
+        keyPressSound.src = `sounds/keypress${selectedValue}.wav`;
+        keyPressSound.load();
     }
-    keyPressSound.src = `sounds/keypress${selectedValue+1}.wav`;
-    keyPressSound.load();
 }
 
 function changeFont () {
@@ -645,18 +650,20 @@ function changeFont () {
     } else if (selectedValue === "serif") {
         document.querySelectorAll('*').forEach(elm => {elm.style.fontFamily = 'serif, sans-serif';});
     } else {
-        document.querySelectorAll('*').forEach(elm => {elm.style.fontFamily = `${selectedValue}, serif, sans-serif`;});
+        document.querySelectorAll('*').forEach(elm => {elm.style.fontFamily = `${selectedValue}, sans-serif, serif`;});
     }
-    cal.barClose.innerHTML = "<i class=\"fa-solid fa-times\"></i>";
-    cal.barBtn.innerHTML = "<i class=\"fa-solid fa-bars\"></i>";
-    cal.swapBtn.innerHTML = "<i class=\"fa-solid fa-right-left\"></i>";
+    // cal.barClose.innerHTML = "<i class=\"fa-solid fa-times\"></i>";
+    // cal.barBtn.innerHTML = "<i class=\"fa-solid fa-bars\"></i>";
+    // cal.swapBtn.innerHTML = "<i class=\"fa-solid fa-right-left\"></i>";
 }
 
 
 window.addEventListener("keydown", function (event) {
-    keyPressSound.pause();
-    keyPressSound.currentTime = 0;
-    keyPressSound.play();
+    if (keyPressSound.readyState) {
+        keyPressSound.pause();
+        keyPressSound.currentTime = 0;
+        keyPressSound.play();
+    }
     if (event.defaultPrevented) {
         return;
     }
