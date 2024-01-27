@@ -1,39 +1,33 @@
-"use strict";
 class Calculator {
-    constructor() {
-        this.mainInput = document.getElementById("mainInput");
-        this.result = "";
-        this.radFlag = false;
-        this.radFlagButton = document.getElementById("rfg");
-        this.logt = Math.log10;
-        this.lo = "";
-        this.lang = document.getElementsByTagName("html")[0].getAttribute("lang");
-        this.com = "";
-        this.facts = [];
-        this.percents = [];
-        this.sec1 = document.getElementById("s1");
-        this.sec2 = document.getElementById("s2");
-        this.bar = document.getElementById("sideBar");
-        this.barBtn = document.getElementById("bar");
-        this.barClose = document.getElementById("barclose");
-        this.barIsVisible = false;
-        this.swapBtn = document.getElementById("swap");
-    }
+    mainInput = document.getElementById("mainInput") as HTMLInputElement;
+    result = "";
+    radFlag = false;
+    radFlagButton = document.getElementById("rfg")!;
+    logt = Math.log10;
+    lo = "";
+    lang = document.getElementsByTagName("html")[0].getAttribute("lang")!;
+    com: string = "";
+    facts = [];
+    percents = [];
+    sec1 = document.getElementById("s1")!;
+    sec2 = document.getElementById("s2")!;
+    bar = document.getElementById("sideBar")!;
+    barBtn = document.getElementById("bar")!;
+    barClose = document.getElementById("barclose")!;
+    barIsVisible = false;
+    swapBtn = document.getElementById("swap")!;
+
     init() {
         this.sec2.hidden = true;
         this.barClose.style.display = "none";
-        this.bar.style.left = "-300px";
-        this.com = (1000).toLocaleString(this.lang)[1];
+        this.bar.style.left = "-300px"
+        this.com = (1000).toLocaleString(this.lang)[1]
     }
-    addNum(num2) {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
-        if (this.mainInput.value[this.mainInput.value.length - 1] === "+" && num2 === "+") {
-            return;
-        }
-        else if (this.isDigit(num2) && (/\d+$/.test(this.mainInput.value) && this.mainInput.value.match(/\d+$/)[0][0] === "0")) {
+
+    addNum (num2: string) {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
+        if (this.mainInput.value[this.mainInput.value.length-1] === "+" && num2 === "+") {return;}
+        else if (this.isDigit(num2) && (/\d+$/.test(this.mainInput.value) && this.mainInput.value.match(/\d+$/)![0][0] === "0")) {
             this.mainInput.value = this.mainInput.value.slice(0, -1) + num2;
             this.result = this.result.slice(0, -1) + num2;
         }
@@ -41,90 +35,85 @@ class Calculator {
             this.mainInput.value = this.mainInput.value + num2;
             this.result += "(" + num2;
         }
-        else if (this.isDigit(num2) && ")eπ%".includes(this.mainInput.value[this.mainInput.value.length - 1])) {
+        else if (this.isDigit(num2) && ")eπ%".includes(this.mainInput.value[this.mainInput.value.length - 1])){
             this.mainInput.value = this.mainInput.value + "×" + num2;
             this.result += "*" + num2;
         }
-        else {
+        else{
             this.mainInput.value = this.mainInput.value + num2;
             this.result += num2;
         }
         this.mainInput.value = this.addComma(this.mainInput.value);
     }
-    addMathDiv() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-            return;
-        }
-        if (this.mainInput.value === "" || this.mainInput.value[this.mainInput.value.length - 1] === "÷") {
-            return;
-        }
-        else if ("×-+".includes(this.mainInput.value[this.mainInput.value.length - 1])) {
+
+    addMathDiv () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";return;}
+        if (this.mainInput.value === "" || this.mainInput.value[this.mainInput.value.length-1] === "÷") {return;}
+        else if ("×-+".includes(this.mainInput.value[this.mainInput.value.length-1])) {
             this.mainInput.value = this.mainInput.value.slice(0, -1) + "÷";
             this.result = this.result.slice(0, -1) + "/";
-            return;
+            return
         }
         else {
             this.mainInput.value = this.mainInput.value + "÷";
             this.result += "/";
         }
     }
-    addMathMul() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-            return;
-        }
-        if (this.mainInput.value === "" || this.mainInput.value[this.mainInput.value.length - 1] === "×") {
-            return;
-        }
-        else if ("-+÷".includes(this.mainInput.value[this.mainInput.value.length - 1])) {
+
+    addMathMul () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";return;}
+        if (this.mainInput.value === "" || this.mainInput.value[this.mainInput.value.length-1] === "×") {return;}
+        else if ("-+÷".includes(this.mainInput.value[this.mainInput.value.length-1])) {
             this.mainInput.value = this.mainInput.value.slice(0, -1) + "×";
             this.result = this.result.slice(0, -1) + "*";
-            return;
+            return
         }
         else {
             this.mainInput.value = this.mainInput.value + "×";
             this.result += "*";
         }
     }
-    clearf() {
+
+    clearf () {
         this.mainInput.value = "";
         this.result = "";
         this.lo = "";
         this.facts = [];
         this.percents = [];
     }
-    evalfn(str = this.result) {
+
+    evalfn (str = this.result) {
         if (str === "") {
             alert("Error");
-            return;
-        }
+            return;}
+        
         let exp = str;
         if (this.isDigit(exp) && (exp !== String(this.roundFloat(Math.E)) && exp !== String(this.roundFloat(Math.PI))) && this.lo !== "") {
             exp += this.lo;
         }
-        this.facts.forEach(elm => exp = exp.replace(elm + "!", `this.factorial(${elm})`));
-        this.percents.forEach(elm => exp = exp.replace(elm + "%", `(${elm}/100)`));
+
+        this.facts.forEach(elm => exp = exp.replace(elm+"!", `this.factorial(${elm})`))
+        this.percents.forEach(elm => exp = exp.replace(elm+"%", `(${elm}/100)`))
+
         const p1len = exp.length - exp.replace(/[(]/g, "").length;
         const p2len = exp.length - exp.replace(/[)]/g, "").length;
-        if (p1len > p2len) {
-            exp += ")".repeat(p1len - p2len);
+    
+        if(p1len > p2len) {
+            exp += ")".repeat(p1len-p2len);
         }
+
         this.calc(exp);
     }
-    calc(exp) {
+
+    calc (exp: string) {
         const x = this.findLastOperationIndex(exp);
         var op = exp[x];
-        if (exp[x + 1] === "*") {
-            op = "**";
-        }
-        if (x !== -1) {
-            let t = exp.slice(x + op.length, exp.length);
+        if (exp[x+1] === "*") {op = "**";}
+            if (x !== -1) {
+            let t = exp.slice(x+op.length, exp.length);
             const p1len = t.length - t.replace(/[(]/g, "").length;
             const p2len = t.length - t.replace(/[)]/g, "").length;
-            t = t.slice(0, t.length - (p2len - p1len));
+            t = t.slice(0, t.length - (p2len-p1len));
             this.lo = op + eval(t);
         }
         let result = String(this.roundFloat(eval(exp)));
@@ -135,28 +124,20 @@ class Calculator {
         this.result = result;
         this.mainInput.value = this.addComma(this.result);
     }
-    addComma(str, sep = this.com) {
+
+    addComma (str: string, sep=this.com) {
         str = str.replaceAll(sep, "");
         const numbers = str.match(/-*\d+(\.\d+)?/g);
-        if (numbers === null) {
-            return str;
-        }
-        const decimals = numbers.map((num) => { if (/\d+\.\d+/.test(num)) {
-            return num.slice(num.indexOf("."), num.length);
-        } });
+        if (numbers === null) {return str;}
+        const decimals = numbers.map((num: any) => {if (/\d+\.\d+/.test(num as string)) {return num.slice((num as string).indexOf("."), (num as string).length);}});
         let result = numbers.map((num) => Number(num).toLocaleString(this.lang));
-        if (result.includes("NaN")) {
-            result.splice(result.indexOf("NaN"), 1);
-        }
+        if (result.includes("NaN")) {result.splice(result.indexOf("NaN"), 1);}
         result = result.map((num) => num.replace(",", sep));
         let answer = str;
         if (decimals[0] !== undefined) {
             var j = 0;
             for (let i = 0; i < result.length; i++) {
-                if (result[i].includes(".")) {
-                    result[i] = result[i].slice(0, result[i].indexOf(".")) + decimals[j];
-                    j++;
-                }
+                if (result[i].includes(".")) {result[i] = result[i].slice(0, result[i].indexOf(".")) + decimals[j];j++;}
                 answer = answer.replace(numbers[i], result[i]);
             }
         }
@@ -167,58 +148,45 @@ class Calculator {
         }
         return answer;
     }
-    findLastOperationIndex(exp = this.result) {
+
+    findLastOperationIndex (exp = this.result) {
         let x = exp.lastIndexOf("*");
         const y = exp.lastIndexOf("+");
         const i = exp.lastIndexOf("-");
         const j = exp.lastIndexOf("/");
         const a = exp.lastIndexOf("**");
-        if (x < y) {
-            x = y;
-        }
-        if (x < i) {
-            x = i;
-        }
-        if (x < j) {
-            x = j;
-        }
-        if (x - 1 === a) {
-            x = a;
-        }
+        if (x < y) {x = y;}
+        if (x < i) {x = i;}
+        if (x < j) {x = j;}
+        if (x-1 === a) {x = a;}
         return x;
     }
-    roundFloat(x, dp = 15) {
+
+    roundFloat (x: number, dp=15) {
         return +parseFloat(String(x)).toFixed(dp);
     }
-    addDecimalPoint() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    addDecimalPoint () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         const x = this.findLastOperationIndex();
         const temp = this.mainInput.value.slice(x + 1, this.mainInput.value.length);
-        if (")eπ".includes(temp[temp.length - 1])) {
+        if(")eπ".includes(temp[temp.length - 1])){
             this.mainInput.value = this.mainInput.value + "×";
-            this.result += "*";
+            this.result += "*"
         }
-        if (temp === "" || "()eπ".includes(temp[temp.length - 1])) {
+        if(temp === "" || "()eπ".includes(temp[temp.length - 1])){
             this.mainInput.value = this.mainInput.value + "0.";
-            this.result += "0.";
+            this.result += "0."
         }
-        else if (!(temp.includes(".")) && this.isDigit(temp[temp.length - 1])) {
+        else if(!(temp.includes(".")) && this.isDigit(temp[temp.length - 1])){
             this.mainInput.value = this.mainInput.value + ".";
-            this.result += ".";
+            this.result += "."
         }
     }
-    bs() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-            return;
-        }
-        if (!this.mainInput.value) {
-            return;
-        }
+
+    bs () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";return;}
+        if (!this.mainInput.value) {return;}
         if (this.mainInput.value[this.mainInput.value.length - 1] === "e") {
             this.mainInput.value = this.mainInput.value.slice(0, -1);
             const EIndex = this.result.lastIndexOf(String(this.roundFloat(Math.E)));
@@ -229,15 +197,13 @@ class Calculator {
             const PIIndex = this.result.lastIndexOf(String(this.roundFloat(Math.PI)));
             this.result = this.result.slice(0, (PIIndex));
         }
-        else if (this.result.slice(-2, this.result.length) === "**" || this.mainInput.value[this.mainInput.value.length - 1] === "-") {
+        else if (this.result.slice(-2, this.result.length) === "**" || this.mainInput.value[this.mainInput.value.length-1] === "-") {
             this.result = this.result.slice(0, -2);
             this.mainInput.value = this.mainInput.value.slice(0, -1);
-        }
-        else if (!("abcdefghijklmnopqrstuvwxyz∛".includes(this.mainInput.value.toLowerCase()[this.mainInput.value.length - 1]))) {
+        } else if (!("abcdefghijklmnopqrstuvwxyz∛".includes(this.mainInput.value.toLowerCase()[this.mainInput.value.length - 1]))) {
             this.mainInput.value = this.mainInput.value.slice(0, -1);
             this.result = this.result.slice(0, -1);
-        }
-        else {
+        } else {
             while ("abcdefghijklmnopqrstuvwxyz∛".includes(this.mainInput.value.toLowerCase()[this.mainInput.value.length - 1]) && this.mainInput.value) {
                 this.mainInput.value = this.mainInput.value.slice(0, -1);
             }
@@ -247,493 +213,451 @@ class Calculator {
         }
         this.mainInput.value = this.addComma(this.mainInput.value);
     }
-    addClosingParentheses() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-            return;
-        }
+
+    addClosingParentheses () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";return;}
         const temp = String(this.mainInput.value);
         const p1len = temp.length - temp.replace(/[(]/g, "").length;
         const p2len = temp.length - temp.replace(/[)]/g, "").length;
         const tempLastIndex = temp[temp.length - 1];
-        if (p1len > p2len && this.isDigit(tempLastIndex, "eπ)!") && !".^+-×÷".includes(tempLastIndex)) {
+    
+        if(p1len > p2len && this.isDigit(tempLastIndex, "eπ)!") && !".^+-×÷".includes(tempLastIndex)){
             this.mainInput.value = temp + ")";
             this.result += ")";
         }
     }
-    addOpeningParentheses() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    addOpeningParentheses () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
-        if (this.mainInput.value[this.mainInput.value.length - 1] !== ".") {
+        if(this.mainInput.value[this.mainInput.value.length-1] !== "."){
             this.mainInput.value = this.mainInput.value + "(";
             this.result += "(";
         }
     }
-    isDigit(x, exclusions = "eπ") {
+
+    isDigit (x: string, exclusions = "eπ") {
         if (exclusions.includes(x)) {
             return true;
-        }
-        else {
+        } else {
             return /^-*\d+\.?(\.\d+)?$/.test(x);
         }
     }
-    logf() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    logf () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "Log(";
         this.result += "this.logt(";
     }
-    lnf() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    lnf () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "ln(";
         this.result += "Math.log(";
     }
-    addE() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    addE () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "e";
         this.result += String(this.roundFloat(Math.E));
-        Math.asin;
+        Math.asin
     }
-    needMultiplySign(chars = "0123456789)eπ.%") {
+
+    needMultiplySign (chars = "0123456789)eπ.%") {
         if (chars.includes(this.mainInput.value[this.mainInput.value.length - 1])) {
             this.mainInput.value = this.mainInput.value + "×";
             this.result += "*";
         }
     }
-    addPi() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    addPi () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "π";
         this.result += String(this.roundFloat(Math.PI));
     }
-    power() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    power () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         if ("0123456789)πe".includes(this.mainInput.value[this.mainInput.value.length - 1])) {
             this.mainInput.value = this.mainInput.value + "^";
             this.result += "**";
         }
     }
-    squareRoot() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    squareRoot () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "√(";
         this.result += "Math.sqrt(";
     }
-    cubeRoot() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    cubeRoot () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "∛(";
         this.result += "Math.cbrt(";
     }
-    absf() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    absf () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "abs(";
         this.result += "Math.abs(";
     }
-    toFlag(x) {
-        return x / 180 * Math.PI;
+
+    toFlag (x: number) {
+        return x/180*Math.PI;
     }
-    toFlag2(x) {
-        return x * 180 / Math.PI;
+
+    toFlag2 (x: number) {
+        return x*180/Math.PI;
     }
-    radFlagChange() {
+
+    radFlagChange () {
         this.radFlag = !this.radFlag;
         if (this.radFlag) {
             this.toFlag = function (x) {
                 return x;
-            };
+            }
             this.toFlag2 = function (x) {
                 return x;
-            };
+            }
             this.radFlagButton.innerHTML = "Rad";
-        }
-        else {
+        } else {
             this.toFlag = this.radians;
             this.toFlag2 = this.degrees;
             this.radFlagButton.innerHTML = "Deg";
         }
     }
-    sinf() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    sinf () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "sin(";
         this.result += "this.sin(";
     }
-    sin(x) {
+
+    sin (x: number) {
         x = this.toFlag(x);
         return Math.sin(x);
     }
-    asinf() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    asinf () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "asin(";
         this.result += "this.asin(";
     }
-    asin(x) {
+
+    asin (x: number) {
         x = Math.asin(x);
         return this.toFlag2(x);
     }
-    sinhf() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    sinhf () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "sinh(";
         this.result += "Math.sinh(";
     }
-    asinhf() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    asinhf () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "asinh(";
         this.result += "Math.asinh(";
     }
-    cosf() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    cosf () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "cos(";
         this.result += "this.cos(";
     }
-    cos(x) {
+
+    cos (x: number) {
         x = this.toFlag(x);
         return Math.cos(x);
     }
-    acosf() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    acosf () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "acos(";
         this.result += "this.acos(";
     }
-    acos(x) {
+
+    acos (x: number) {
         x = Math.acos(x);
         return this.toFlag2(x);
     }
-    coshf() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    coshf () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "cosh(";
         this.result += "Math.cosh(";
     }
-    acoshf() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    acoshf () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "acosh(";
         this.result += "Math.acosh(";
     }
-    tanf() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    tanf () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "tan(";
         this.result += "this.tan(";
     }
-    tan(x) {
+
+    tan (x: number) {
         x = this.toFlag(x);
         return Math.tan(x);
     }
-    atanf() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    atanf () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "atan(";
         this.result += "this.atan(";
     }
-    atan(x) {
+
+    atan (x: number) {
         x = Math.atan(x);
         return this.toFlag2(x);
     }
-    tanhf() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    tanhf () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "tanh(";
         this.result += "Math.tanh(";
     }
-    atanhf() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    atanhf () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "atanh(";
         this.result += "Math.atanh(";
     }
-    cotf() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    cotf () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "cot(";
         this.result += "this.cot(";
     }
-    cot(x) {
+
+    cot (x: number) {
         this.toFlag(x);
         return Math.cos(x) / Math.sin(x);
     }
-    acotf() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    acotf () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "acot(";
         this.result += "this.acot(";
     }
-    acot(x) {
-        x = this.atan(1 / x);
+
+    acot (x: number) {
+        x = this.atan(1/x);
         return this.toFlag2(x);
     }
-    cothf() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    cothf () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "coth(";
         this.result += "this.coth(";
     }
-    coth(x) {
-        return 1 / Math.tanh(x);
+
+    coth (x: number) {
+        return 1/Math.tanh(x);
     }
-    acothf() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    acothf () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "acoth(";
         this.result += "this.acoth(";
     }
-    acoth(x) {
-        return Math.atanh(1 / x);
+
+    acoth (x: number) {
+        return Math.atanh(1/x);
     }
-    radians(x) {
-        return x / 180 * Math.PI;
+
+    radians (x: number) {
+        return x/180*Math.PI;
     }
-    Rad() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    Rad () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "Rad(";
         this.result += "this.radians(";
     }
-    degrees(x) {
-        return x / Math.PI * 180;
+
+    degrees (x: number) {
+        return x/Math.PI*180
     }
-    Deg() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    Deg () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         this.needMultiplySign();
         this.mainInput.value = this.mainInput.value + "Deg(";
         this.result += "this.degrees(";
     }
-    getExpBefore() {
-        let t = this.result.match(/\d+\)+$/g);
-        if (t[0] === undefined) {
-            return;
-        }
+
+    getExpBefore () {
+        let t = this.result.match(/\d+\)+$/g)!;
+        if (t[0] === undefined) {return;}
         let t2 = t[0];
         var opReached = 0;
         const p2len = t2.length - t2.replace(/[)]/g, "").length;
         for (var i = this.result.indexOf(t2); opReached < p2len; i--) {
-            if (opReached === p2len) {
-                break;
-            }
-            if (this.result[i] === "(") {
-                opReached++;
-                continue;
-            }
+            if (opReached === p2len) {break;}
+            if (this.result[i] === "(") {opReached++;continue;}
         }
         i++;
-        const elm2 = this.result.slice(i, this.result.indexOf(t2) + t2.length);
-        var j = this.result.indexOf(elm2) - 1;
+        const elm2 = this.result.slice(i, this.result.indexOf(t2)+t2.length);
+        var j = this.result.indexOf(elm2)-1;
         while (j > 0) {
-            if (this.result[j] && /\w|\./.test(this.result[j])) {
-                j--;
-                continue;
-            }
+            if (this.result[j] && /\w|\./.test(this.result[j])) {j--;continue;}
             break;
         }
         j++;
-        let t3 = this.result.slice(j, this.result.indexOf(t2) + t2.length);
+        let t3 = this.result.slice(j, this.result.indexOf(t2)+t2.length);
         return t3;
     }
-    factorial(x) {
+
+    factorial (x: number) {
         if (x === 0) {
             return 1;
         }
-        let result = x;
+        let result = x
         for (let i = 2; i < x; i++) {
             result *= i;
         }
         return result;
     }
-    addFactorial() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-            return;
-        }
+
+    addFactorial () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";return;}
         if (/\.\d+$/.test(this.mainInput.value)) {
             alert("can't get the factorial of a floating point number");
         }
         else if (/\d+$/.test(this.mainInput.value)) {
-            this.facts.push(this.mainInput.value.match(/\d+$/));
+            this.facts.push(this.mainInput.value.match(/\d+$/) as never);
             this.mainInput.value = this.mainInput.value + "!";
             this.result += "!";
         }
+        // else if (/\d+\!$/.test(this.mainInput.value)) {
+        //     this.facts.push(this.mainInput.value.match(/\d+\!$/));
+        //     this.mainInput.value = this.mainInput.value + "!";
+        //     this.result += "!";
+        // }
         else {
             const t = this.getExpBefore();
-            if (/\d+\.\d+/.test(String(this.roundFloat(eval(t))))) {
+            if (/\d+\.\d+/.test(String(this.roundFloat(eval(t!))))) {
                 alert("can't get the factorial of a floating point number");
                 return;
             }
             else {
                 this.mainInput.value = this.mainInput.value + "!";
                 this.result += "!";
-                this.facts.push(t);
+                this.facts.push(t as never);
             }
         }
     }
-    addPercent() {
-        if (this.mainInput.value === "Infinity") {
-            this.mainInput.value = "";
-            this.result = "";
-        }
+
+    addPercent () {
+        if (this.mainInput.value === "Infinity") {this.mainInput.value = "";this.result = "";}
         if (/-*\d+\.?(\.\d+)?$/.test(this.mainInput.value)) {
-            this.percents.push(this.mainInput.value.match(/\d+\.?(\.\d+)?$/)[0]);
+            this.percents.push(this.mainInput.value.match(/\d+\.?(\.\d+)?$/)![0] as never);
         }
         else {
             const t = this.getExpBefore();
-            this.percents.push(t);
+            this.percents.push(t as never);
         }
         this.mainInput.value = this.mainInput.value + "%";
         this.result += "%";
     }
-    changeFunctions() {
+
+    changeFunctions () {
         if (this.sec1.hidden) {
             this.sec1.hidden = false;
             this.sec2.hidden = true;
-        }
-        else {
+        } else {
             this.sec1.hidden = true;
             this.sec2.hidden = false;
         }
     }
-    showBar() {
+
+    showBar () {
         this.bar.style.left = "0";
-        if (window.innerHeight < window.innerWidth) {
+        if(window.innerHeight < window.innerWidth){
             this.barBtn.style.display = "none";
-        }
+        }        
         this.barIsVisible = true;
-        this.barClose.style.animation = "fadeIn 0.5s ease";
+        this.barClose.style.animation = "fadeIn 0.5s ease"
         this.barClose.style.opacity = "1";
         this.barClose.style.display = "block";
     }
-    hideBar() {
+
+    hideBar () {
         this.bar.style.left = "-300px";
         this.barBtn.style.display = "block";
         this.barIsVisible = false;
-        this.barClose.style.animation = "fadeOut 0.5s ease";
+        this.barClose.style.animation = "fadeOut 0.5s ease"
         this.barClose.style.opacity = "0";
         this.barClose.style.display = "none";
     }
-    barEsc() {
+
+    barEsc () {
         if (this.barIsVisible) {
             this.hideBar();
-        }
-        else {
+        } else {
             this.showBar();
         }
     }
 }
+
 const cal = new Calculator();
 cal.init();
-var keyPressSound = document.getElementById("kps");
-var options = document.getElementById("sel");
-var fontOptions = document.getElementById("sel2");
-function changeKeyboardSound() {
+var keyPressSound = document.getElementById("kps") as HTMLAudioElement;
+var options = document.getElementById("sel") as HTMLSelectElement;
+var fontOptions = document.getElementById("sel2") as HTMLSelectElement;
+
+function changeKeyboardSound () {
     var selectedValue = options.selectedIndex;
     if (selectedValue !== -1) {
         keyPressSound.src = `sounds/keypress${selectedValue}.wav`;
         keyPressSound.load();
     }
 }
-function changeFont() {
+
+function changeFont () {
     var selectedValue = fontOptions.options[fontOptions.selectedIndex].value;
-    if (fontOptions.selectedIndex === -1 || selectedValue === "sans-serif") {
-        document.querySelectorAll('*').forEach(elm => { elm.style.fontFamily = 'sans-serif, serif'; });
+    if (fontOptions.selectedIndex === -1  || selectedValue === "sans-serif") {
+        document.querySelectorAll('*').forEach(elm => {(elm as HTMLElement).style.fontFamily = 'sans-serif, serif';});
+    } else if (selectedValue === "serif") {
+        document.querySelectorAll('*').forEach(elm => {(elm as HTMLElement).style.fontFamily = 'serif, sans-serif';});
+    } else {
+        document.querySelectorAll('*').forEach(elm => {(elm as HTMLElement).style.fontFamily = `${selectedValue}, sans-serif, serif`;});
     }
-    else if (selectedValue === "serif") {
-        document.querySelectorAll('*').forEach(elm => { elm.style.fontFamily = 'serif, sans-serif'; });
-    }
-    else {
-        document.querySelectorAll('*').forEach(elm => { elm.style.fontFamily = `${selectedValue}, sans-serif, serif`; });
-    }
+    // cal.barClose.innerHTML = "<i class=\"fa-solid fa-times\"></i>";
+    // cal.barBtn.innerHTML = "<i class=\"fa-solid fa-bars\"></i>";
+    // cal.swapBtn.innerHTML = "<i class=\"fa-solid fa-right-left\"></i>";
 }
+
 window.addEventListener("keydown", function (event) {
     if (keyPressSound.readyState) {
         keyPressSound.pause();
@@ -744,9 +668,8 @@ window.addEventListener("keydown", function (event) {
         return;
     }
     let nums = "0123456789+-".split("");
-    nums.forEach(num => { if (event.key === num) {
-        cal.addNum(num);
-    } });
+    nums.forEach(num => {if (event.key === num) {cal.addNum(num);}});
+
     if (event.ctrlKey) {
         switch (event.key.toLocaleLowerCase()) {
             case "c":
@@ -762,8 +685,7 @@ window.addEventListener("keydown", function (event) {
                 try {
                     let t = String(this.navigator.clipboard.readText());
                     cal.evalfn(t);
-                }
-                catch {
+                } catch {
                     this.alert("can't calculate");
                 }
                 break;
@@ -823,4 +745,3 @@ window.addEventListener("keydown", function (event) {
     }
     event.preventDefault();
 }, true);
-//# sourceMappingURL=script.js.map
