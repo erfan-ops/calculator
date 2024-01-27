@@ -125,8 +125,18 @@ class Calculator {
         this.mainInput.value = this.addComma(this.result);
     }
 
+    replaceAll(str: string, searchValue: string, repaceValue: string) {
+        str.split("").forEach(elm => {
+            if (elm === searchValue) {
+                str = str.slice(0, str.indexOf(elm)) + repaceValue + str.slice(str.indexOf(elm)+1, str.length);
+            }
+        });
+
+        return str;
+    }
+
     addComma (str: string, sep=this.com) {
-        str = str.replaceAll(sep, "");
+        str = this.replaceAll(str, sep, "");
         const numbers = str.match(/-*\d+(\.\d+)?/g);
         if (numbers === null) {return str;}
         const decimals = numbers.map((num: any) => {if (/\d+\.\d+/.test(num as string)) {return num.slice((num as string).indexOf("."), (num as string).length);}});

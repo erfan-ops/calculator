@@ -135,8 +135,16 @@ class Calculator {
         this.result = result;
         this.mainInput.value = this.addComma(this.result);
     }
+    replaceAll(str, searchValue, repaceValue) {
+        str.split("").forEach(elm => {
+            if (elm === searchValue) {
+                str = str.slice(0, str.indexOf(elm)) + repaceValue + str.slice(str.indexOf(elm) + 1, str.length);
+            }
+        });
+        return str;
+    }
     addComma(str, sep = this.com) {
-        str = str.replaceAll(sep, "");
+        str = this.replaceAll(str, sep, "");
         const numbers = str.match(/-*\d+(\.\d+)?/g);
         if (numbers === null) {
             return str;
@@ -763,7 +771,7 @@ window.addEventListener("keydown", function (event) {
                     let t = String(this.navigator.clipboard.readText());
                     cal.evalfn(t);
                 }
-                catch {
+                catch (_a) {
                     this.alert("can't calculate");
                 }
                 break;
