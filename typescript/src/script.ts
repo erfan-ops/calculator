@@ -1,3 +1,35 @@
+// im implementing my own BigInt type so it can be used in old javascript versions
+// class BigNumber {
+//     value: string = "";
+//     constructor(value: number | string) {
+//         this.value = String(value);
+//     }
+
+//     add (x: number | BigNumber | string) {
+//         if (x instanceof BigNumber) {
+//             var n2 = x.value
+//         }
+//         else {
+//             var n2 = String(x);
+//         }
+//         var result: string = this.value.slice(0, this.value.length-n2.length) + "0".repeat(n2.length);
+//         var l = n2.length;
+//         if (n2.length > this.value.length) {
+//             var l = this.value.length
+//             var result: string = n2.slice(0, n2.length-this.value.length) + "0".repeat(this.value.length);
+//         }
+//         for (let i = 1; i <= l; i++) {
+//             let n: string = String(Number(n2[n2.length-i]) + Number(this.value[this.value.length-i]));
+//             for (let j = 1; j <= n.length; j++) {
+//                 let s: string = String(Number(n[n.length-j]) + Number(result[result.length-i]));
+//                 result = result.slice(0, result.length-j-i+1) + s + result.slice(result.length-j-i+2, result.length);
+//             }
+//         }
+//         return new BigNumber(result);
+//     }
+// }
+
+
 class Calculator {
     mainInput = document.getElementById("mainInput") as HTMLInputElement;
     result = "";
@@ -121,22 +153,27 @@ class Calculator {
             alert("Error");
             return;
         }
+        if (Number(result) > Number.MAX_SAFE_INTEGER) {
+            result = String(BigInt(result));
+        }
         this.result = result;
         this.mainInput.value = this.addComma(this.result);
     }
 
-    replaceAll(str: string, searchValue: string, repaceValue: string) {
-        str.split("").forEach(elm => {
-            if (elm === searchValue) {
-                str = str.slice(0, str.indexOf(elm)) + repaceValue + str.slice(str.indexOf(elm)+1, str.length);
-            }
-        });
+    // uncomment if using js<2021 is necessary
+    // replaceAll(str: string, searchValue: string, repaceValue: string) {
+    //     str.split("").forEach(elm => {
+    //         if (elm === searchValue) {
+    //             str = str.slice(0, str.indexOf(elm)) + repaceValue + str.slice(str.indexOf(elm)+1, str.length);
+    //         }
+    //     });
 
-        return str;
-    }
+    //     return str;
+    // }
 
     addComma (str: string, sep=this.com) {
-        str = this.replaceAll(str, sep, "");
+        //str = this.replaceAll(str, sep, "");
+        str = str.replaceAll(sep, "");
         const numbers = str.match(/-*\d+(\.\d+)?/g);
         if (numbers === null) {return str;}
         const decimals = numbers.map((num: any) => {if (/\d+\.\d+/.test(num as string)) {return num.slice((num as string).indexOf("."), (num as string).length);}});

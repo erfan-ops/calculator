@@ -132,19 +132,14 @@ class Calculator {
             alert("Error");
             return;
         }
+        if (Number(result) > Number.MAX_SAFE_INTEGER) {
+            result = String(BigInt(result));
+        }
         this.result = result;
         this.mainInput.value = this.addComma(this.result);
     }
-    replaceAll(str, searchValue, repaceValue) {
-        str.split("").forEach(elm => {
-            if (elm === searchValue) {
-                str = str.slice(0, str.indexOf(elm)) + repaceValue + str.slice(str.indexOf(elm) + 1, str.length);
-            }
-        });
-        return str;
-    }
     addComma(str, sep = this.com) {
-        str = this.replaceAll(str, sep, "");
+        str = str.replaceAll(sep, "");
         const numbers = str.match(/-*\d+(\.\d+)?/g);
         if (numbers === null) {
             return str;
@@ -771,7 +766,7 @@ window.addEventListener("keydown", function (event) {
                     let t = String(this.navigator.clipboard.readText());
                     cal.evalfn(t);
                 }
-                catch (_a) {
+                catch {
                     this.alert("can't calculate");
                 }
                 break;
