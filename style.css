@@ -297,3 +297,23 @@ button, #mainInput{
         top: 0;
     }
 }
+
+.section2 * {
+    position: relative;
+}
+
+.min1 {
+    font-size: 20px;
+    bottom: 40px;
+    left: 35px;
+}
+
+.min2 {
+    font-size: 20px;
+    bottom: 42px;
+    left: 42px;
+}
+
+.fix {
+    top: 15%;
+}
