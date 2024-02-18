@@ -1,33 +1,64 @@
 // im implementing my own BigInt type so it can be used in old javascript versions
-// class BigNumber {
-//     value: string = "";
-//     constructor(value: number | string) {
-//         this.value = String(value);
-//     }
+/*
+class BigNumber {
+    value: string = "";
+    constructor(value: number | string) {
+        this.value = String(value);
+    }
 
-//     add (x: number | BigNumber | string) {
-//         if (x instanceof BigNumber) {
-//             var n2 = x.value
-//         }
-//         else {
-//             var n2 = String(x);
-//         }
-//         var result: string = this.value.slice(0, this.value.length-n2.length) + "0".repeat(n2.length);
-//         var l = n2.length;
-//         if (n2.length > this.value.length) {
-//             var l = this.value.length
-//             var result: string = n2.slice(0, n2.length-this.value.length) + "0".repeat(this.value.length);
-//         }
-//         for (let i = 1; i <= l; i++) {
-//             let n: string = String(Number(n2[n2.length-i]) + Number(this.value[this.value.length-i]));
-//             for (let j = 1; j <= n.length; j++) {
-//                 let s: string = String(Number(n[n.length-j]) + Number(result[result.length-i]));
-//                 result = result.slice(0, result.length-j-i+1) + s + result.slice(result.length-j-i+2, result.length);
-//             }
-//         }
-//         return new BigNumber(result);
-//     }
-// }
+    toStr (x :number | BigNumber | string): string {
+        if (x instanceof BigNumber) {
+            return x.value
+        }
+        else {
+            return String(x);
+        }
+    }
+
+    toInt (x :number | BigNumber | string): number {
+        if (x instanceof BigNumber) {
+            return Number(x.value);
+        }
+        else {
+            return Number(x);
+        }
+    }
+
+
+    add (x: number | BigNumber | string): BigNumber {
+        var n2 = this.toStr(x);
+        var result: string = this.value.slice(0, this.value.length-n2.length) + "0".repeat(n2.length);
+        var l = n2.length;
+        if (n2.length > this.value.length) {
+            var l = this.value.length
+            var result: string = n2.slice(0, n2.length-this.value.length) + "0".repeat(this.value.length);
+        }
+        for (let i = 1; i <= l; i++) {
+            let n: string = String(Number(n2[n2.length-i]) + Number(this.value[this.value.length-i]));
+            for (let j = 1; j <= n.length; j++) {
+                let s: string = String(Number(n[n.length-j]) + Number(result[result.length-i]));
+                result = result.slice(0, result.length-j-i+1) + s + result.slice(result.length-j-i+2, result.length);
+            }
+        }
+        return new BigNumber(result);
+    }
+
+    subtract(x: number | BigNumber | string): BigNumber {
+
+    }
+
+
+    mul (x: number | BigNumber | string): BigNumber {
+        var n2 = Number(x);
+        var result: BigNumber = new BigNumber(this.value);
+        for (var i = 1; i < n2; i++) {
+            result.add(this.value);
+        }
+
+        return result;
+    }
+}
+*/
 
 
 class Calculator {
@@ -49,7 +80,7 @@ class Calculator {
     barIsVisible = false;
     swapBtn = document.getElementById("swap")!;
 
-    init() {
+    init(): void {
         this.sec2.hidden = true;
         this.barClose.style.display = "none";
         this.bar.style.left = "-300px"
@@ -792,3 +823,27 @@ window.addEventListener("keydown", function (event) {
     }
     event.preventDefault();
 }, true);
+
+class UI {
+    isDay: boolean = true;
+    themeBtn = document.getElementById("theme")!;
+
+    changeTheme() {
+        if (this.isDay) {
+            this.isDay = false;
+            this.themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>'
+            document.documentElement.style.setProperty('--primaryColor', '#48b4e9');
+            document.documentElement.style.setProperty('--secondaryColor', '#072556');
+            document.documentElement.style.setProperty('--color3', '#2894c9');
+        }
+        else {
+            this.isDay = true;
+            this.themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>'
+            document.documentElement.style.setProperty('--primaryColor', '#573300');
+            document.documentElement.style.setProperty('--secondaryColor', '#c99d61');
+            document.documentElement.style.setProperty('--color3', '#402500');
+        }
+    }
+}
+
+const ui: UI = new UI();

@@ -1,11 +1,12 @@
 :root{
-    --darkBrown: #573300;
-    --lightBrown: #c99d61;
+    --primaryColor: #573300;
+    --secondaryColor: #c99d61;
+    --color3: #402500;
 }
 
 ::selection {
-    background-color: var(--darkBrown);
-    color: var(--lightBrown);
+    background-color: var(--primaryColor);
+    color: var(--secondaryColor);
 }
 
 @font-face {
@@ -46,13 +47,13 @@ body {
     width: 100%;
     margin: 0;
     background-size: cover;
-    background-color: var(--lightBrown);
+    background-color: var(--secondaryColor);
 }
 
 #mainInput {
     height: 26mm;
-    width: calc(100% - 385px);
-    border-color: var(--darkBrown);
+    width: calc(100% - 490px);
+    border-color: var(--primaryColor);
     font-size: 50px;
     text-align: left;
     margin-top: 1.6mm;
@@ -62,7 +63,7 @@ body {
 }
 
 button{
-    border-color: var(--darkBrown);
+    border-color: var(--primaryColor);
     font-size: 40px;
     margin: 1.6mm;
     height: 26mm;
@@ -71,16 +72,16 @@ button{
 }
 
 button:hover{
-    color: var(--lightBrown);
-    background-color: var(--darkBrown);
-    border-color: var(--lightBrown);
+    color: var(--secondaryColor);
+    background-color: var(--primaryColor);
+    border-color: var(--secondaryColor);
     transition: 0.3s;
-    box-shadow: 0 0 6px var(--darkBrown);
+    box-shadow: 0 0 6px var(--primaryColor);
     text-shadow: 0 0 5px;
 }
 
 button:active {
-    border-color: var(--darkBrown);
+    border-color: var(--primaryColor);
     background-color: #472300;
 
 }
@@ -88,22 +89,26 @@ button:active {
 button, #mainInput{
     text-shadow: 0 0 3px;
     box-shadow: 4px 4px 5px;
-    color: var(--darkBrown);
+    color: var(--primaryColor);
     border-radius: 25px;
     border-width: 5px;
-    background-color: var(--lightBrown);
+    background-color: var(--secondaryColor);
+}
+
+#theme {
+    position: absolute;
+    top: 10px;
+    right: 120px;
 }
 
 #swapSvg {
-    fill: var(--darkBrown);
+    fill: var(--primaryColor);
     position: relative;
     top: 2px;
-    transition: 0.3s;
 }
 
 #swap:hover #swapSvg {
-    fill: var(--lightBrown);
-    transition: 0.3s;
+    fill: var(--secondaryColor);
 }
 
 #github {
@@ -111,22 +116,22 @@ button, #mainInput{
     position: fixed;
     left: 50px;
     bottom: 50px;
-    fill: #472300;
+    fill: var(--color3);
     filter: drop-shadow(3px 5px 2px #00000095);
 }
 #github:hover {
-    fill: var(--darkBrown);
+    fill: var(--primaryColor);
 }
 
 .sideButtons button {
-    text-shadow: 0 0 3px var(--darkBrown);
+    text-shadow: 0 0 3px var(--primaryColor);
 }
 
 .sideButtons button:hover {
-    color: var(--lightBrown);
-    background-color: var(--darkBrown);
-    border-color: var(--darkBrown);
-    text-shadow: 0 0 5px var(--lightBrown);
+    color: var(--secondaryColor);
+    background-color: var(--primaryColor);
+    border-color: var(--primaryColor);
+    text-shadow: 0 0 5px var(--secondaryColor);
 }
 
 .sideBar {
@@ -135,8 +140,8 @@ button, #mainInput{
     left: -300px;
     width: 300px;
     height: 100vh;
-    background-color: var(--darkBrown);
-    color: var(--lightBrown);
+    background-color: var(--primaryColor);
+    color: var(--secondaryColor);
     padding: 0;
     margin: 0;
     text-align: left;
@@ -148,19 +153,19 @@ button, #mainInput{
     font-size: 30px;
     line-height: 70px;
     background-color: #472300;
-    text-shadow: 0 0 5px var(--lightBrown);
+    text-shadow: 0 0 5px var(--secondaryColor);
 }
 
 .sideBar select {
     width: 100%;
-    background-color: var(--darkBrown);
+    background-color: var(--primaryColor);
     border: 0;
     outline: none;
 }
 
 .sideBar select option {
     padding: 10px;
-    color: var(--lightBrown);
+    color: var(--secondaryColor);
     font-size: 30px;
 }
 

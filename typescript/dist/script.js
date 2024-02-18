@@ -826,4 +826,27 @@ window.addEventListener("keydown", function (event) {
     }
     event.preventDefault();
 }, true);
+class UI {
+    constructor() {
+        this.isDay = true;
+        this.themeBtn = document.getElementById("theme");
+    }
+    changeTheme() {
+        if (this.isDay) {
+            this.isDay = false;
+            this.themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+            document.documentElement.style.setProperty('--primaryColor', '#48b4e9');
+            document.documentElement.style.setProperty('--secondaryColor', '#072556');
+            document.documentElement.style.setProperty('--color3', '#2894c9');
+        }
+        else {
+            this.isDay = true;
+            this.themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+            document.documentElement.style.setProperty('--primaryColor', '#573300');
+            document.documentElement.style.setProperty('--secondaryColor', '#c99d61');
+            document.documentElement.style.setProperty('--color3', '#402500');
+        }
+    }
+}
+const ui = new UI();
 //# sourceMappingURL=script.js.map
