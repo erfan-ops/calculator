@@ -175,7 +175,7 @@ class Calculator {
         const y = exp.lastIndexOf("+");
         const i = exp.lastIndexOf("-");
         const j = exp.lastIndexOf("/");
-        const a = exp.lastIndexOf("**");
+        const a = exp.lastIndexOf("^");
         if (x < y) {
             x = y;
         }
@@ -185,7 +185,7 @@ class Calculator {
         if (x < j) {
             x = j;
         }
-        if (x - 1 === a) {
+        if (x - 1 < a) {
             x = a;
         }
         return x;
@@ -198,7 +198,7 @@ class Calculator {
             this.mainInput.value = "";
             this.result = "";
         }
-        const x = this.findLastOperationIndex();
+        const x = this.findLastOperationIndex(this.mainInput.value);
         const temp = this.mainInput.value.slice(x + 1, this.mainInput.value.length);
         if (")eπ".includes(temp[temp.length - 1])) {
             this.mainInput.value = this.mainInput.value + "×";
