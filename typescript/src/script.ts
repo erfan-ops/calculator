@@ -783,10 +783,10 @@ window.addEventListener("keydown", function (event) {
             cal.addDecimalPoint();
             break;
         case "*":
-            cal.addNum("×");
+            cal.addMathMul();
             break;
         case "/":
-            cal.addNum("÷");
+            cal.addMathDiv();
             break;
         case "(":
             cal.addOpeningParentheses();

@@ -271,12 +271,17 @@ button, #mainInput{
 
     .sideButtons button {
         position: absolute;
-        width: calc(33vw - 25px);
+        width: calc(25vw - 25px);
         margin: 10px;
+        top: 10px;
+    }
+
+    #theme {
+        right: 24.5vw;
     }
 
     #swap {
-        position: relative;
+        left: 24.5vw;
     }
 
     #rfg {
