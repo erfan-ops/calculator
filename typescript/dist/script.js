@@ -715,33 +715,11 @@ class Calculator {
 }
 const cal = new Calculator();
 cal.init();
-var keyPressSound = document.getElementById("kps");
-var options = document.getElementById("sel");
-var fontOptions = document.getElementById("sel2");
-function changeKeyboardSound() {
-    var selectedValue = options.selectedIndex;
-    if (selectedValue !== -1) {
-        keyPressSound.src = `sounds/keypress${selectedValue}.wav`;
-        keyPressSound.load();
-    }
-}
-function changeFont() {
-    var selectedValue = fontOptions.options[fontOptions.selectedIndex].value;
-    if (fontOptions.selectedIndex === -1 || selectedValue === "sans-serif") {
-        document.querySelectorAll('*').forEach(elm => { elm.style.fontFamily = 'sans-serif, serif'; });
-    }
-    else if (selectedValue === "serif") {
-        document.querySelectorAll('*').forEach(elm => { elm.style.fontFamily = 'serif, sans-serif'; });
-    }
-    else {
-        document.querySelectorAll('*').forEach(elm => { elm.style.fontFamily = `${selectedValue}, sans-serif, serif`; });
-    }
-}
 window.addEventListener("keydown", function (event) {
-    if (keyPressSound.readyState) {
-        keyPressSound.pause();
-        keyPressSound.currentTime = 0;
-        keyPressSound.play();
+    if (ui.keyPressSound.readyState) {
+        ui.keyPressSound.pause();
+        ui.keyPressSound.currentTime = 0;
+        ui.keyPressSound.play();
     }
     if (event.defaultPrevented) {
         return;
@@ -830,23 +808,79 @@ class UI {
     constructor() {
         this.isDay = true;
         this.themeBtn = document.getElementById("theme");
+        this.options = document.getElementById("sel");
+        this.keyPressSound = document.getElementById("kps");
+        this.fontOptions = document.getElementById("sel2");
+        this.daCookieString = document.cookie;
+        this.cookies = document.cookie.split("|");
+    }
+    init() {
+        if (this.cookies[0] === "night") {
+            this.setNightTheme();
+        }
+        if (this.cookies[1] === undefined) {
+            this.cookies[1] = "sans-serif, serif";
+        }
+        document.querySelectorAll('*').forEach(elm => { elm.style.fontFamily = this.cookies[1]; });
+        this.fix_cookies();
     }
     changeTheme() {
         if (this.isDay) {
-            this.isDay = false;
-            this.themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
-            document.documentElement.style.setProperty('--primaryColor', '#48b4e9');
-            document.documentElement.style.setProperty('--secondaryColor', '#072556');
-            document.documentElement.style.setProperty('--color3', '#2894c9');
+            this.setNightTheme();
         }
         else {
-            this.isDay = true;
-            this.themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
-            document.documentElement.style.setProperty('--primaryColor', '#573300');
-            document.documentElement.style.setProperty('--secondaryColor', '#c99d61');
-            document.documentElement.style.setProperty('--color3', '#402500');
+            this.setDayTheme();
         }
+    }
+    setDayTheme() {
+        this.isDay = true;
+        this.themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+        document.documentElement.style.setProperty('--primaryColor', '#573300');
+        document.documentElement.style.setProperty('--secondaryColor', '#c99d61');
+        document.documentElement.style.setProperty('--color3', '#402500');
+        document.documentElement.style.setProperty('--color4', '#472300');
+        this.cookies[0] = "day";
+        this.fix_cookies();
+    }
+    fix_cookies() {
+        this.daCookieString = "";
+        this.cookies.forEach(cookie => { this.daCookieString = `${this.daCookieString}${cookie}|`; });
+        document.cookie = this.daCookieString;
+    }
+    setNightTheme() {
+        this.isDay = false;
+        this.themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+        document.documentElement.style.setProperty('--primaryColor', '#48b4e9');
+        document.documentElement.style.setProperty('--secondaryColor', '#072556');
+        document.documentElement.style.setProperty('--color3', '#2894c9');
+        document.documentElement.style.setProperty('--color4', '#b8dcff');
+        this.cookies[0] = "night";
+        this.fix_cookies();
+    }
+    changeKeyboardSound() {
+        var selectedValue = this.options.selectedIndex;
+        if (selectedValue !== -1) {
+            this.keyPressSound.src = `sounds/keypress${selectedValue}.wav`;
+            this.keyPressSound.load();
+        }
+    }
+    changeFont() {
+        var selectedValue = this.fontOptions.options[this.fontOptions.selectedIndex].value;
+        var font = "";
+        if (this.fontOptions.selectedIndex === -1 || selectedValue === "sans-serif") {
+            font = 'sans-serif, serif';
+        }
+        else if (selectedValue === "serif") {
+            font = 'serif, sans-serif';
+        }
+        else {
+            font = `${selectedValue}, sans-serif, serif`;
+        }
+        document.querySelectorAll('*').forEach(elm => { elm.style.fontFamily = font; });
+        this.cookies[1] = font;
+        this.fix_cookies();
     }
 }
 const ui = new UI();
+ui.init();
 //# sourceMappingURL=script.js.map

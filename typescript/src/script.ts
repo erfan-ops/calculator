@@ -710,37 +710,13 @@ class Calculator {
 
 const cal = new Calculator();
 cal.init();
-var keyPressSound = document.getElementById("kps") as HTMLAudioElement;
-var options = document.getElementById("sel") as HTMLSelectElement;
-var fontOptions = document.getElementById("sel2") as HTMLSelectElement;
 
-function changeKeyboardSound () {
-    var selectedValue = options.selectedIndex;
-    if (selectedValue !== -1) {
-        keyPressSound.src = `sounds/keypress${selectedValue}.wav`;
-        keyPressSound.load();
-    }
-}
-
-function changeFont () {
-    var selectedValue = fontOptions.options[fontOptions.selectedIndex].value;
-    if (fontOptions.selectedIndex === -1  || selectedValue === "sans-serif") {
-        document.querySelectorAll('*').forEach(elm => {(elm as HTMLElement).style.fontFamily = 'sans-serif, serif';});
-    } else if (selectedValue === "serif") {
-        document.querySelectorAll('*').forEach(elm => {(elm as HTMLElement).style.fontFamily = 'serif, sans-serif';});
-    } else {
-        document.querySelectorAll('*').forEach(elm => {(elm as HTMLElement).style.fontFamily = `${selectedValue}, sans-serif, serif`;});
-    }
-    // cal.barClose.innerHTML = "<i class=\"fa-solid fa-times\"></i>";
-    // cal.barBtn.innerHTML = "<i class=\"fa-solid fa-bars\"></i>";
-    // cal.swapBtn.innerHTML = "<i class=\"fa-solid fa-right-left\"></i>";
-}
 
 window.addEventListener("keydown", function (event) {
-    if (keyPressSound.readyState) {
-        keyPressSound.pause();
-        keyPressSound.currentTime = 0;
-        keyPressSound.play();
+    if (ui.keyPressSound.readyState) {
+        ui.keyPressSound.pause();
+        ui.keyPressSound.currentTime = 0;
+        ui.keyPressSound.play();
     }
     if (event.defaultPrevented) {
         return;
@@ -824,26 +800,92 @@ window.addEventListener("keydown", function (event) {
     event.preventDefault();
 }, true);
 
+
 class UI {
     isDay: boolean = true;
-    themeBtn = document.getElementById("theme")!;
+    themeBtn: HTMLButtonElement = document.getElementById("theme") as HTMLButtonElement;
+    options = document.getElementById("sel") as HTMLSelectElement;
+    keyPressSound = document.getElementById("kps") as HTMLAudioElement;
+    fontOptions = document.getElementById("sel2") as HTMLSelectElement;
+    daCookieString = document.cookie;
+    cookies: Array<string> = document.cookie.split("|");
+
+    init () {
+        if (this.cookies[0] === "night") {
+            this.setNightTheme();
+        }
+        if (this.cookies[1] === undefined) {
+            this.cookies[1] = "sans-serif, serif";
+        }
+        
+        document.querySelectorAll('*').forEach(elm => {(elm as HTMLElement).style.fontFamily = this.cookies[1];});
+        this.fix_cookies();
+    }
 
     changeTheme() {
         if (this.isDay) {
-            this.isDay = false;
-            this.themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>'
-            document.documentElement.style.setProperty('--primaryColor', '#48b4e9');
-            document.documentElement.style.setProperty('--secondaryColor', '#072556');
-            document.documentElement.style.setProperty('--color3', '#2894c9');
+            this.setNightTheme();
         }
         else {
-            this.isDay = true;
-            this.themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>'
-            document.documentElement.style.setProperty('--primaryColor', '#573300');
-            document.documentElement.style.setProperty('--secondaryColor', '#c99d61');
-            document.documentElement.style.setProperty('--color3', '#402500');
+            this.setDayTheme();
         }
+    }
+
+    setDayTheme() {
+        this.isDay = true;
+        this.themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>'
+        document.documentElement.style.setProperty('--primaryColor', '#573300');
+        document.documentElement.style.setProperty('--secondaryColor', '#c99d61');
+        document.documentElement.style.setProperty('--color3', '#402500');
+        document.documentElement.style.setProperty('--color4', '#472300');
+        this.cookies[0] = "day";
+        this.fix_cookies();
+    }
+
+    fix_cookies() {
+        this.daCookieString = "";
+        this.cookies.forEach(cookie => {this.daCookieString = `${this.daCookieString}${cookie}|`;});
+        document.cookie = this.daCookieString;
+        
+    }
+
+    setNightTheme() {
+        this.isDay = false;
+        this.themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>'
+        document.documentElement.style.setProperty('--primaryColor', '#48b4e9');
+        document.documentElement.style.setProperty('--secondaryColor', '#072556');
+        document.documentElement.style.setProperty('--color3', '#2894c9');
+        document.documentElement.style.setProperty('--color4', '#b8dcff');
+        this.cookies[0] = "night";
+        this.fix_cookies();
+        
+    }
+
+    changeKeyboardSound () {
+        var selectedValue = this.options.selectedIndex;
+        if (selectedValue !== -1) {
+            this.keyPressSound.src = `sounds/keypress${selectedValue}.wav`;
+            this.keyPressSound.load();
+        }
+    }
+    
+    changeFont () {
+        var selectedValue = this.fontOptions.options[this.fontOptions.selectedIndex].value;
+        var font = "";
+        if (this.fontOptions.selectedIndex === -1  || selectedValue === "sans-serif") {
+            font = 'sans-serif, serif';
+        } else if (selectedValue === "serif") {
+            font = 'serif, sans-serif';
+        } else {
+            font = `${selectedValue}, sans-serif, serif`;
+        }
+
+        document.querySelectorAll('*').forEach(elm => {(elm as HTMLElement).style.fontFamily = font;});
+        this.cookies[1] = font;
+        this.fix_cookies();
+        
     }
 }
 
 const ui: UI = new UI();
+ui.init();
