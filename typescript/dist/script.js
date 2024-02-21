@@ -716,7 +716,7 @@ class Calculator {
 const cal = new Calculator();
 cal.init();
 window.addEventListener("keydown", function (event) {
-    if (ui.keyPressSound.readyState) {
+    if (ui.keyPressSound.readyState && ui.selectedKPSvalue !== 0) {
         ui.keyPressSound.pause();
         ui.keyPressSound.currentTime = 0;
         ui.keyPressSound.play();
@@ -813,6 +813,7 @@ class UI {
         this.fontOptions = document.getElementById("sel2");
         this.daCookieString = document.cookie;
         this.cookies = document.cookie.split("|");
+        this.selectedKPSvalue = 0;
     }
     init() {
         if (this.cookies[0] === "night") {
@@ -858,9 +859,9 @@ class UI {
         this.fix_cookies();
     }
     changeKeyboardSound() {
-        var selectedValue = this.options.selectedIndex;
-        if (selectedValue !== -1) {
-            this.keyPressSound.src = `sounds/keypress${selectedValue}.wav`;
+        this.selectedKPSvalue = this.options.selectedIndex;
+        if (this.selectedKPSvalue !== 0) {
+            this.keyPressSound.src = `sounds/keypress${this.selectedKPSvalue}.wav`;
             this.keyPressSound.load();
         }
     }
@@ -879,6 +880,7 @@ class UI {
         document.querySelectorAll('*').forEach(elm => { elm.style.fontFamily = font; });
         this.cookies[1] = font;
         this.fix_cookies();
+        console.log(font);
     }
 }
 const ui = new UI();

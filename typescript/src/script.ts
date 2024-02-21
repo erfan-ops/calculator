@@ -713,7 +713,7 @@ cal.init();
 
 
 window.addEventListener("keydown", function (event) {
-    if (ui.keyPressSound.readyState) {
+    if (ui.keyPressSound.readyState && ui.selectedKPSvalue !== 0) {
         ui.keyPressSound.pause();
         ui.keyPressSound.currentTime = 0;
         ui.keyPressSound.play();
@@ -809,6 +809,7 @@ class UI {
     fontOptions = document.getElementById("sel2") as HTMLSelectElement;
     daCookieString = document.cookie;
     cookies: Array<string> = document.cookie.split("|");
+    selectedKPSvalue: number = 0;
 
     init () {
         if (this.cookies[0] === "night") {
@@ -862,9 +863,9 @@ class UI {
     }
 
     changeKeyboardSound () {
-        var selectedValue = this.options.selectedIndex;
-        if (selectedValue !== -1) {
-            this.keyPressSound.src = `sounds/keypress${selectedValue}.wav`;
+        this.selectedKPSvalue = this.options.selectedIndex;
+        if (this.selectedKPSvalue !== 0) {
+            this.keyPressSound.src = `sounds/keypress${this.selectedKPSvalue}.wav`;
             this.keyPressSound.load();
         }
     }
@@ -883,7 +884,7 @@ class UI {
         document.querySelectorAll('*').forEach(elm => {(elm as HTMLElement).style.fontFamily = font;});
         this.cookies[1] = font;
         this.fix_cookies();
-        
+        console.log(font);
     }
 }
 
