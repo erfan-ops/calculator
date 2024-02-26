@@ -832,6 +832,13 @@ class UI {
         }
     }
 
+    fix_cookies() {
+        this.daCookieString = "";
+        this.cookies.forEach(cookie => {this.daCookieString = `${this.daCookieString}${cookie}|`;});
+        document.cookie = this.daCookieString;
+        
+    }
+
     setDayTheme() {
         this.isDay = true;
         this.themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>'
@@ -843,12 +850,6 @@ class UI {
         this.fix_cookies();
     }
 
-    fix_cookies() {
-        this.daCookieString = "";
-        this.cookies.forEach(cookie => {this.daCookieString = `${this.daCookieString}${cookie}|`;});
-        document.cookie = this.daCookieString;
-        
-    }
 
     setNightTheme() {
         this.isDay = false;

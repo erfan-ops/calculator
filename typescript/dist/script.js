@@ -833,6 +833,11 @@ class UI {
             this.setDayTheme();
         }
     }
+    fix_cookies() {
+        this.daCookieString = "";
+        this.cookies.forEach(cookie => { this.daCookieString = `${this.daCookieString}${cookie}|`; });
+        document.cookie = this.daCookieString;
+    }
     setDayTheme() {
         this.isDay = true;
         this.themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
@@ -843,18 +848,13 @@ class UI {
         this.cookies[0] = "day";
         this.fix_cookies();
     }
-    fix_cookies() {
-        this.daCookieString = "";
-        this.cookies.forEach(cookie => { this.daCookieString = `${this.daCookieString}${cookie}|`; });
-        document.cookie = this.daCookieString;
-    }
     setNightTheme() {
         this.isDay = false;
         this.themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
-        document.documentElement.style.setProperty('--primaryColor', '#48b4e9');
-        document.documentElement.style.setProperty('--secondaryColor', '#072556');
-        document.documentElement.style.setProperty('--color3', '#2894c9');
-        document.documentElement.style.setProperty('--color4', '#b8dcff');
+        document.documentElement.style.setProperty('--primaryColor', '#c99d61');
+        document.documentElement.style.setProperty('--secondaryColor', '#573300');
+        document.documentElement.style.setProperty('--color3', '#472300');
+        document.documentElement.style.setProperty('--color4', '#402500');
         this.cookies[0] = "night";
         this.fix_cookies();
     }
